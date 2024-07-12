@@ -13,15 +13,22 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * класс содержит тестовые методы для проверки функционала формы регистрации.
+ */
 public class RegistrationFormTest {
+
     private WebDriver driver;
     private RegistrationFormPage registrationFormPage;
 
+    /**
+     * Настройка теста, инициализация WebDriver и открытие страницы для тестирования.
+     */
     @BeforeClass
     public void setUp() {
         Path driverPath = Paths.get("drivers", "chromedriver.exe").toAbsolutePath();
         if (!Files.exists(driverPath)) {
-            throw new RuntimeException("Chromedriver не найден по пути: " + driverPath.toString());
+            throw new RuntimeException("Chromedriver не найден по пути: " + driverPath);
         }
         System.setProperty("webdriver.chrome.driver", driverPath.toString());
 
@@ -31,6 +38,9 @@ public class RegistrationFormTest {
         driver.get("https://demoqa.com/automation-practice-form");
     }
 
+    /**
+     * метод, который вызывает методы для заполнения формы, отправки её и проверки результата.
+     */
     @Test
     @Description("Заполнение формы регистрации")
     public void testRegistrationForm() {
@@ -39,6 +49,9 @@ public class RegistrationFormTest {
         verifySubmissionResult();
     }
 
+    /**
+     * Заполняет данные для регистрации, включая проверку наличия изображения перед его загрузкой.
+     */
     @Step("Заполнение деталей регистрации")
     private void enterRegistrationDetails() {
         registrationFormPage.enterFirstName("Ivan");
@@ -61,6 +74,9 @@ public class RegistrationFormTest {
         registrationFormPage.selectCity("Delhi");
     }
 
+    /**
+     *  Проверяет, что после отправки формы появляется всплывающее окно с результатами и проверяет содержимое таблицы результатов.
+     */
     @Step("Проверка результатов регистрации")
     private void verifySubmissionResult() {
         Assert.assertTrue(registrationFormPage.isResultPopupDisplayed(), "Popup is not displayed");
