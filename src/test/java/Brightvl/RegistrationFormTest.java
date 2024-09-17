@@ -1,5 +1,6 @@
 package Brightvl;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
@@ -26,17 +27,13 @@ public class RegistrationFormTest {
      */
     @BeforeClass
     public void setUp() {
-        Path driverPath = Paths.get("drivers", "chromedriver.exe").toAbsolutePath();
-        if (!Files.exists(driverPath)) {
-            throw new RuntimeException("Chromedriver не найден по пути: " + driverPath);
-        }
-        System.setProperty("webdriver.chrome.driver", driverPath.toString());
-
+        WebDriverManager.chromedriver().setup(); // Automatically manages driver version
         driver = new ChromeDriver();
         registrationFormPage = new RegistrationFormPage(driver);
         driver.manage().window().maximize();
         driver.get("https://demoqa.com/automation-practice-form");
     }
+
 
     /**
      * метод, который вызывает методы для заполнения формы, отправки её и проверки результата.
